@@ -53,6 +53,7 @@ const cardArray = [
 cardArray.sort(() => 0.5 - Math.random());
 
 const grid = document.querySelector(".grid");
+const winImg = document.getElementById("win-img");
 
 const resultDisplay = document.querySelector("#result");
 const cardsChosen = [];
@@ -64,7 +65,6 @@ function createBoard() {
     const card = document.createElement("img");
     card.setAttribute("src", "images/blank.png");
     card.setAttribute("data-id", i);
-    console.log("test");
 
     card.addEventListener("click", flipCard);
 
@@ -80,7 +80,7 @@ function checkForMatch() {
 
   if (cardsChosen[0] === cardsChosen[1]) {
     //if match change the img to white space
-    alert("You found a match");
+    // alert("You found a match");
     cards[optionOneId].setAttribute("src", "images/white.png");
     cards[optionTwoId].setAttribute("src", "images/white.png");
     cardsWon.push(cardsChosen);
@@ -88,15 +88,23 @@ function checkForMatch() {
     //flip back if doesn't match
     cards[optionOneId].setAttribute("src", "images/blank.png");
     cards[optionTwoId].setAttribute("src", "images/blank.png");
-    alert("Sorry, try again");
+    // alert("Sorry, try again");
   }
 
   //po tom co som vybral karty bez ohladu na podmienku chcem aby sa pole vybranych kariet vymazlo
   cardsChosen.length = 0;
   cardsChosenId.length = 0;
   resultDisplay.textContent = cardsWon.length;
+
   if (cardsWon.length === cardArray.length / 2) {
     resultDisplay.textContent = "Congratulation! You found them all";
+    while (grid.hasChildNodes()) {
+      grid.removeChild(grid.firstChild);
+    }
+    const win = document.createElement("img");
+    win.setAttribute("src", "images/win.jpg");
+    win.setAttribute("class", "img-successful");
+    grid.appendChild(win);
   }
 }
 
